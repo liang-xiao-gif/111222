@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DOC to PDF</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07111f;
+        --panel: #0d1728;
+        --panel-2: #111d31;
+        --line: #243451;
+        --text: #e8eef9;
+        --muted: #93a2be;
+        --accent: #75a5ff;
+        --accent-2: #53d5c9;
+        --warn: #ffb96d;
+        --danger: #ff7b8a;
+      }
+      * { box-sizing: border-box; }
+      html, body { min-height: 100%; margin: 0; background: radial-gradient(circle at top, #17315c 0%, transparent 28%), var(--bg); color: var(--text); font-family: Inter, "Microsoft YaHei", system-ui, sans-serif; }
+      body { overflow-x: hidden; }
+      .shell { min-height: 100svh; display: grid; grid-template-columns: 270px minmax(0, 1fr); }
+      .sidebar {
+        padding: 28px 18px;
+        border-right: 1px solid var(--line);
+        background: linear-gradient(180deg, #07101eeb 0%, #091423f2 100%);
+      }
+      .brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 800; letter-spacing: .02em; }
+      .mark {
+        width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px;
+        color: #07111f; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        box-shadow: 0 10px 30px #53d5c91f;
+      }
+      .side-copy { margin: 18px 0 24px; color: var(--muted); line-height: 1.75; font-size: 13px; }
+      .side-panel {
+        padding: 14px; border: 1px solid var(--line); border-radius: 12px;
+        background: linear-gradient(180deg, #101b2ef2 0%, #0c1728f2 100%);
+      }
+      .side-panel h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: .12em; color: #b9c7df; }
+      .side-panel ul { margin: 0; padding: 0 0 0 18px; color: var(--muted); line-height: 1.8; font-size: 13px; }
+      .main { padding: 28px 30px 34px; }
+      .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+      .title h1 { margin: 0; font-size: 25px; }
+      .title p { margin: 6px 0 0; color: var(--muted); }
+      .badge {
+        padding: 9px 12px; border: 1px solid #30507f; border-radius: 999px; color: #bfd0ef;
+        background: #0f1b30; font-size: 12px; font-weight: 700;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(330px, .95fr);
+        gap: 18px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        background: linear-gradient(160deg, #121d32 0%, #0d1728 100%);
+        box-shadow: 0 18px 55px #0000003d;
+      }
+      .card-head {
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+      }
+      .card-head strong { font-size: 14px; letter-spacing: .02em; }
+      .card-head span { color: var(--muted); font-size: 12px; }
+      .drop {
+        margin: 18px;
+        min-height: 230px;
+        border: 1.5px dashed #355379;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background: linear-gradient(180deg, #0b1525 0%, #0a1320 100%);
+        transition: border-color .2s, transform .2s, background .2s;
+      }
+      .drop.dragover { border-color: var(--accent-2); background: linear-gradient(180deg, #0b1d22 0%, #0a1320 100%); transform: translateY(-1px); }
+      .drop-inner { padding: 26px; max-width: 420px; }
+      .drop-icon {
+        width: 66px; height: 66px; margin: 0 auto 16px;
+        display: grid; place-items: center; border-radius: 18px;
+        background: linear-gradient(135deg, #1a2b48, #0f1b30);
+        border: 1px solid #2a4368;
+        color: #dbe7fb;
+        font-size: 28px;
+      }
+      .drop h2 { margin: 0 0 8px; font-size: 22px; }
+      .drop p { margin: 0; color: var(--muted); line-height: 1.7; }
+      .controls {
+        margin: 0 18px 18px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .field { display: grid; gap: 7px; }
+      .field label { color: #a9b9d4; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+      .field select, .field input[type="text"] {
+        height: 42px; padding: 0 12px; border: 1px solid #2a4060; border-radius: 10px;
+        background: #0b1424; color: var(--text); outline: none;
+      }
+      .actions {
+        margin: 0 18px 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      button {
+        height: 42px;
+        padding: 0 15px;
+        border: 0;
+        border-radius: 10px;
+        color: #07111f;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .ghost {
+        background: #111d31;
+        color: #d9e4f7;
+        border: 1px solid #2a4160;
+      }
+      .status {
+        margin: 0 18px 18px;
+        padding: 13px 14px;
+        border-radius: 12px;
+        border: 1px solid #29405f;
+        background: #0b1524;
+        color: #d8e3f2;
+        line-height: 1.6;
+      }
+      .queue {
+        margin: 18px;
+        display: grid;
+        gap: 10px;
+      }
+      .file-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 13px 14px;
+        border: 1px solid #26395a;
+        border-radius: 12px;
+        background: #0b1524;
+      }
+      .file-row strong { display: block; font-size: 14px; }
+      .file-row small { color: var(--muted); }
+      .file-pill {
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        background: #172744;
+        color: #bed0f1;
+      }
+      .preview {
+        min-height: 100%;
+      }
+      .preview-body {
+        padding: 18px;
+        display: grid;
+        gap: 14px;
+      }
+      .preview-stage {
+        min-height: 330px;
+        border: 1px solid #2a4263;
+        border-radius: 14px;
+        background:
+          linear-gradient(180deg, #f9fbff 0%, #edf2f8 100%);
+        color: #1c2740;
+        padding: 24px;
+      }
+      .pdf-page {
+        width: min(100%, 390px);
+        aspect-ratio: 210 / 297;
+        margin: 0 auto;
+        padding: 26px;
+        border-radius: 10px;
+        background: white;
+        box-shadow: 0 20px 45px #0a13201d;
+        display: grid;
+        align-content: start;
+        gap: 14px;
+      }
+      .pdf-page h3 { margin: 0; font-size: 24px; }
+      .pdf-page p { margin: 0; color: #4f5d74; line-height: 1.7; font-size: 14px; }
+      .stamp {
+        margin-top: auto;
+        justify-self: start;
+        padding: 8px 11px;
+        border-radius: 999px;
+        background: #ebf3ff;
+        color: #2950a8;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .04em;
+      }
+      .note {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .warn { color: #ffd09c; }
+      .error { color: #ffafba; }
+      @media (max-width: 1040px) {
+        .shell { grid-template-columns: 1fr; }
+        .sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
+        .grid { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 680px) {
+        .main { padding: 20px 16px 24px; }
+        .controls { grid-template-columns: 1fr; }
+        .topbar { align-items: flex-start; flex-direction: column; }
+        .drop, .preview-stage { min-height: 220px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="mark">PDF</span><span>DOC to PDF</span></div>
+        <p class="side-copy">把文档拖进来，整理成可下载的 PDF 输出。这个页面先把上传、队列、预览和导出路径搭好，后面可以再接真正的转换引擎。</p>
+        <div class="side-panel">
+          <h2>支持思路</h2>
+          <ul>
+            <li>`docx` 适合接真实解析器</li>
+            <li>`doc` 需要服务器侧转换工具</li>
+            <li>输出侧统一为 PDF</li>
+          </ul>
+        </div>
+      </aside>
+      <section class="main">
+        <div class="topbar">
+          <div class="title">
+            <h1>文档转 PDF</h1>
+            <p>新的独立页面，先把转换流程和导出体验做好。</p>
+          </div>
+          <div class="badge">NEW PAGE</div>
+        </div>
+        <div class="grid">
+          <section class="card">
+            <div class="card-head">
+              <strong>转换队列</strong>
+              <span>拖拽上传 / 多文件</span>
+            </div>
+            <div class="drop" id="dropzone">
+              <div class="drop-inner">
+                <div class="drop-icon">⇪</div>
+                <h2>把 Word 文档放到这里</h2>
+                <p>支持 `.doc` / `.docx` 的选择入口已经准备好。真正的内容转换可以接到服务器引擎上，当前界面负责完成交互、预览和下载按钮。</p>
+              </div>
+            </div>
+            <div class="controls">
+              <div class="field">
+                <label for="input-type">输入格式</label>
+                <select id="input-type">
+                  <option>Microsoft Word (.docx)</option>
+                  <option>Microsoft Word (.doc)</option>
+                  <option>其他文档</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="output-name">输出文件名</label>
+                <input id="output-name" type="text" value="converted-document.pdf">
+              </div>
+            </div>
+            <div class="actions">
+              <button id="pick-file" type="button">选择文件</button>
+              <button id="convert" type="button">开始转换</button>
+              <button id="download" type="button" class="ghost" disabled>下载 PDF</button>
+              <input id="file-input" type="file" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+            </div>
+            <div class="status" id="status">等待上传文件。当前页面会先模拟完整的转换流程，并清楚标记哪些步骤已经接好，哪些还需要真实文档引擎。</div>
+            <div class="queue" id="queue"></div>
+          </section>
+          <section class="card preview">
+            <div class="card-head">
+              <strong>PDF 预览</strong>
+              <span>输出布局示意</span>
+            </div>
+            <div class="preview-body">
+              <div class="preview-stage">
+                <div class="pdf-page" id="pdf-page">
+                  <h3>Converted PDF</h3>
+                  <p>这里会显示导出的 PDF 预览。你后面如果要接真实转换，我可以把这个位置改成生成后的缩略图或下载结果。</p>
+                  <p class="warn">当前版本是完整页面和交互框架，不会假装已经把 DOC 真正转成 PDF。</p>
+                  <div class="stamp">READY FOR ENGINE</div>
+                </div>
+              </div>
+              <div class="note" id="note">
+                说明：如果你要“真的”把 `.doc/.docx` 转成 PDF，通常需要接服务器端的转换引擎，比如 LibreOffice、WPS、OnlyOffice 或商业转换 API。这个仓库现在是静态页面加一个轻量 Node 服务器，所以我先把页面做出来，下一步可以继续把后端补上。
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script>
+      (() => {
+        const dropzone = document.querySelector('#dropzone');
+        const fileInput = document.querySelector('#file-input');
+        const pickFile = document.querySelector('#pick-file');
+        const convert = document.querySelector('#convert');
+        const download = document.querySelector('#download');
+        const status = document.querySelector('#status');
+        const queue = document.querySelector('#queue');
+        const outputName = document.querySelector('#output-name');
+        const inputType = document.querySelector('#input-type');
+        const pdfPage = document.querySelector('#pdf-page');
+        let selectedFile = null;
+        let downloadUrl = '';
+
+        function setStatus(message, tone = '') {
+          status.className = `status ${tone}`.trim();
+          status.textContent = message;
+        }
+
+        function renderQueue() {
+          queue.innerHTML = selectedFile ? `
+            <div class="file-row">
+              <div>
+                <strong>${selectedFile.name}</strong>
+                <small>${selectedFile.type || 'unknown type'} · ${Math.max(1, Math.round(selectedFile.size / 1024))} KB</small>
+              </div>
+              <span class="file-pill">${selectedFile.name.split('.').pop().toUpperCase()}</span>
+            </div>
+          ` : '';
+        }
+
+        function updatePreview() {
+          const label = selectedFile ? selectedFile.name : 'Converted PDF';
+          pdfPage.querySelector('h3').textContent = label;
+          pdfPage.querySelector('p').textContent = selectedFile
+            ? `文件已经进入转换队列。输出文件名将使用 ${outputName.value || 'converted-document.pdf'}。`
+            : '这里会显示导出的 PDF 预览。你后面如果要接真实转换，我可以把这个位置改成生成后的缩略图或下载结果。';
+        }
+
+        function acceptFile(file) {
+          selectedFile = file;
+          renderQueue();
+          updatePreview();
+          const type = (file.name.split('.').pop() || '').toLowerCase();
+          if (type === 'doc' || type === 'docx') {
+            setStatus(`已接收 ${file.name}。界面已经准备好，下一步需要接真实的文档解析/转换引擎。`, '');
+          } else {
+            setStatus(`已接收 ${file.name}。这个页面当前更适合作为 Word 文档入口，别的格式可以后续再扩展。`, 'warn');
+          }
+        }
+
+        pickFile.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => {
+          if (fileInput.files && fileInput.files[0]) acceptFile(fileInput.files[0]);
+        });
+        outputName.addEventListener('input', () => {
+          updatePreview();
+        });
+        convert.addEventListener('click', async () => {
+          if (!selectedFile) {
+            setStatus('先选择一个文档文件再开始转换。', 'error');
+            return;
+          }
+          setStatus(`正在使用 OpenOffice 处理 ${selectedFile.name} ...`, '');
+          const formData = new FormData();
+          formData.append('file', selectedFile);
+          formData.append('outputName', outputName.value || 'converted-document.pdf');
+          convert.disabled = true;
+          try {
+            const response = await fetch('/api/convert', { method: 'POST', body: formData });
+            if (!response.ok) {
+              const data = await response.json().catch(() => ({}));
+              throw new Error(data.error || '转换失败');
+            }
+            const blob = await response.blob();
+            if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+            downloadUrl = URL.createObjectURL(blob);
+            download.href = downloadUrl;
+            download.download = outputName.value || 'converted-document.pdf';
+            download.disabled = false;
+            setStatus(`已转换完成，可以直接下载 ${download.download}。`, '');
+          } catch (error) {
+            download.disabled = true;
+            setStatus(error.message.includes('soffice')
+              ? `${error.message}。请安装 OpenOffice / LibreOffice，并确保命令行能调用 soffice。`
+              : error.message,
+            'error');
+          } finally {
+            convert.disabled = false;
+          }
+        });
+        download.addEventListener('click', (event) => {
+          if (!selectedFile) {
+            event.preventDefault();
+            setStatus('还没有可以下载的结果。', 'error');
+          }
+        });
+        dropzone.addEventListener('dragover', (event) => {
+          event.preventDefault();
+          dropzone.classList.add('dragover');
+        });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', (event) => {
+          event.preventDefault();
+          dropzone.classList.remove('dragover');
+          const file = event.dataTransfer.files && event.dataTransfer.files[0];
+          if (file) acceptFile(file);
+        });
+
+        updatePreview();
+      })();
+    </script>
+  </body>
+</html>

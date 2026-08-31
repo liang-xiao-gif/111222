@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>员工介绍｜CodeGuard AI</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      background: #030306;
+      color: #fff;
+      font-family: Arial, "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      overflow: hidden;
+      background: #030306;
+    }
+
+    #dynamic-rainbow {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .veil {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, #030306 0%, #03030620 40%, #030306 96%);
+    }
+
+    .nav,
+    .copy,
+    .bottom {
+      position: absolute;
+      z-index: 2;
+    }
+
+    .nav {
+      top: 27px;
+      right: 32px;
+      left: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .11em;
+    }
+
+    .brand {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .brand i {
+      width: 10px;
+      height: 10px;
+      display: block;
+      border-radius: 99px;
+      background: #fff;
+    }
+
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid #ffffff80;
+      padding-bottom: 4px;
+    }
+
+    .copy {
+      right: 8vw;
+      bottom: 13vh;
+      left: 8vw;
+      max-width: 1100px;
+    }
+
+    .eyebrow {
+      margin: 0 0 21px;
+      color: #d0d2df;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+    }
+
+    h1 {
+      max-width: 1030px;
+      margin: 0;
+      font-size: clamp(55px, 9.6vw, 148px);
+      line-height: .88;
+      letter-spacing: -.03em;
+    }
+
+    h1 span {
+      display: block;
+      overflow: hidden;
+    }
+
+    h1 b {
+      display: block;
+      background: linear-gradient(100deg, #fff 13%, #d4d6ff 48%, #fff 83%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      transform: translateY(108%);
+      animation: reveal 900ms cubic-bezier(.16, .8, .2, 1) forwards;
+    }
+
+    h1 span+span b {
+      animation-delay: 130ms;
+    }
+
+    @keyframes reveal {
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .description {
+      max-width: 430px;
+      margin: 27px 0 0;
+      color: #c2c4d3;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .bottom {
+      right: 32px;
+      bottom: 27px;
+      left: 32px;
+      display: flex;
+      justify-content: space-between;
+      color: #bec0cf;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .down {
+      display: inline-block;
+      margin-right: 7px;
+      color: #fff;
+      font-size: 20px;
+      animation: bounce 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes bounce {
+      to {
+        transform: translateY(6px);
+      }
+    }
+
+    .team {
+      position: relative;
+      min-height: 100vh;
+      padding: 110px max(7vw, 24px);
+      background: radial-gradient(circle at 85% 15%, #42255e55, transparent 32%), #07070b;
+    }
+
+    .team-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 32px;
+      max-width: 1180px;
+      margin: 0 auto 45px;
+    }
+
+    .team-heading p {
+      margin: 0 0 10px;
+      color: #9ea2b5;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+    }
+
+    .team-heading h2 {
+      margin: 0;
+      font-size: clamp(38px, 6vw, 78px);
+      letter-spacing: -.04em;
+    }
+
+    .team-heading>span {
+      max-width: 390px;
+      color: #aaaebd;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .people {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .team-groups { display: grid; gap: 34px; max-width: 1180px; margin: 0 auto; }
+    .team-group { padding: 24px; border: 1px solid #ffffff18; border-radius: 20px; background: #ffffff06; }
+    .team-group-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: 0 0 18px; }
+    .team-group-heading h3 { margin: 0; font-size: 24px; }
+    .team-group-heading span { color: #8f91a0; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+    .team-group .people { max-width: none; margin: 0; }
+    .group-empty { grid-column: 1 / -1; margin: 0; padding: 28px; border: 1px dashed #ffffff24; border-radius: 14px; color: #858796; text-align: center; }
+
+    .team-tools {
+      display: flex;
+      max-width: 1180px;
+      margin: 0 auto 18px;
+    }
+
+    .add-people {
+      padding: 11px 17px;
+      border: 1px solid #ffffff2d;
+      border-radius: 10px;
+      color: #fff;
+      background: #ffffff0e;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease;
+    }
+
+    .add-people:hover,
+    .add-people:focus-visible {
+      border-color: #ffffff60;
+      background: #ffffff18;
+    }
+
+    .group-add-person { width: 100%; margin-top: 18px; border-style: dashed; }
+
+    .person {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      min-height: 390px;
+      padding: 28px;
+      border: 1px solid #ffffff16;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #ffffff10, #ffffff05);
+      color: inherit;
+      text-decoration: none;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+
+    .person:hover {
+      transform: translateY(-7px);
+      border-color: #ffffff42;
+    }
+
+    .portrait {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 225px;
+      margin-bottom: 25px;
+      border-radius: 13px;
+      background: var(--portrait);
+      color: #fff;
+      font-size: 68px;
+      font-weight: 800;
+      letter-spacing: -.08em;
+    }
+
+    .person small {
+      color: #a9aabe;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .15em;
+    }
+
+    .person h3 {
+      margin: 9px 0 10px;
+      font-size: 25px;
+    }
+
+    .person p {
+      margin: 0;
+      color: #adafbd;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .profile-link {
+      display: inline-block;
+      margin-top: 18px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-decoration: none;
+    }
+
+    .blank-person {
+      cursor: text;
+    }
+
+    .blank-person:hover {
+      transform: none;
+    }
+
+    .blank-person [contenteditable="true"] {
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .blank-person [contenteditable="true"]:focus {
+      box-shadow: 0 0 0 2px #ffb33f80;
+    }
+
+    .blank-person [contenteditable="true"]:empty::before {
+      color: #ffffff70;
+      content: attr(data-placeholder);
+    }
+
+    .blank-person .portrait {
+      background: linear-gradient(135deg, #34343f, #1d1d27);
+    }
+
+    .person-group-select { width: 100%; margin-top: 15px; padding: 9px 11px; border: 1px solid #ffffff28; border-radius: 9px; color: #fff; background: #22222d; font: inherit; font-size: 12px; cursor: pointer; }
+
+    .profile-detail [contenteditable="true"] {
+      min-height: 1.5em;
+      padding: 7px 9px;
+      border: 1px solid #ffffff20;
+      border-radius: 4px;
+      background: #05050b45;
+      outline: none;
+    }
+
+    .profile-detail [contenteditable="true"]:focus {
+      border-color: #ffb33f80;
+      box-shadow: 0 0 0 2px #ffb33f80;
+    }
+
+    .profile-detail [contenteditable="true"]:empty::before {
+      color: #ffffff65;
+      content: '点击填写';
+    }
+
+    .profile-detail {
+      max-width: 1180px;
+      margin: 70px auto 0;
+      padding: 42px;
+      border: 1px solid #ffffff20;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #171723, #0d0d13);
+      scroll-margin-top: 28px;
+    }
+
+    .profile-detail:target {
+      border-color: #ff6b8b99;
+      box-shadow: 0 0 0 4px #ff6b8b18;
+    }
+
+    .profile-detail small {
+      color: #ff8da7;
+      font-weight: 700;
+      letter-spacing: .14em;
+    }
+
+    .profile-detail h2 {
+      margin: 12px 0 18px;
+      font-size: clamp(32px, 5vw, 58px);
+    }
+
+    .profile-detail p {
+      max-width: 720px;
+      margin: 0;
+      color: #b9bac5;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .home-link {
+      display: inline-block;
+      margin-top: 50px;
+      color: #d7d8e1;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-decoration: none;
+    }
+
+    .page-footer {
+      display: flex;
+      justify-content: flex-end;
+      max-width: 1180px;
+      margin: 70px auto 0;
+      padding-top: 28px;
+      border-top: 1px solid #ffffff18;
+    }
+
+    .back-to-top {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-decoration: none;
+    }
+
+    .back-to-top i {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border: 1px solid #ffffff40;
+      border-radius: 50%;
+      background: #ffffff0a;
+      font-size: 23px;
+      font-style: normal;
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .back-to-top:hover i,
+    .back-to-top:focus-visible i {
+      transform: translateY(-5px);
+      border-color: #fff;
+      background: #ffffff16;
+    }
+
+    .profile-detail {
+      position: fixed;
+      z-index: 20;
+      inset: 0;
+      display: none;
+      max-width: none;
+      margin: 0;
+      padding: 24px;
+      overflow: auto;
+      border: 0;
+      border-radius: 0;
+      background: #05050bd9;
+      backdrop-filter: blur(12px);
+    }
+
+    .profile-detail:target {
+      display: grid;
+      place-items: center;
+      box-shadow: none;
+    }
+
+    .profile-detail > small,
+    .profile-detail > h2,
+    .profile-detail > p,
+    .profile-detail > .home-link { display: none; }
+
+    .profile-popup {
+      position: relative;
+      width: min(1180px, 100%);
+      padding: 30px 38px 38px;
+      border: 1px solid #ffffff20;
+      border-radius: 24px;
+      background: #0d0d15;
+      box-shadow: 0 30px 90px #000b;
+    }
+
+    .profile-close {
+      position: absolute;
+      z-index: 2;
+      top: 20px;
+      right: 20px;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #ffffff30;
+      border-radius: 50%;
+      color: #fff;
+      background: #ffffff12;
+      font-size: 26px;
+      text-decoration: none;
+    }
+
+    .profile-title { text-align: center; }
+    .profile-title small { color: #ff8da7; font-weight: 700; letter-spacing: .18em; }
+    .profile-title h2 { margin: 7px 0 0; font-size: 34px; }
+    .profile-grid { display: grid; grid-template-columns: 1fr 320px 1fr; grid-template-rows: repeat(4, minmax(105px, auto)); gap: 14px 28px; margin-top: 26px; }
+    .profile-photo { position: relative; grid-column: 2; grid-row: 1 / 5; min-height: 480px; overflow: hidden; border-radius: 165px 165px 20px 20px; background: linear-gradient(145deg,#ff6b8b,#754cff); }
+    .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-photo.no-photo { display: grid; place-items: center; background: linear-gradient(145deg,#173c4b,#397c83); }
+    .empty-portrait { display: grid; justify-items: center; color: #ffffffb8; }
+    .empty-portrait .head { width: 104px; height: 104px; border-radius: 50%; background: #ffffff40; box-shadow: inset 0 0 0 2px #ffffff1f; }
+    .empty-portrait .body { width: 190px; height: 125px; margin-top: 18px; border-radius: 100px 100px 20px 20px; background: #ffffff32; box-shadow: inset 0 0 0 2px #ffffff18; }
+    .empty-portrait em { margin-top: 20px; font-size: 11px; font-style: normal; letter-spacing: .25em; }
+    .photo-name { position: absolute; right: 16px; bottom: 16px; left: 16px; padding: 15px; border: 1px solid #ffffff35; border-radius: 13px; background: #090915a8; backdrop-filter: blur(8px); }
+    .photo-name b,.photo-name small { display: block; }.photo-name small { margin-top: 4px; color: #ffffff99; }
+    .profile-item { position: relative; padding: 18px 20px; border: 1px solid #ffffff18; border-radius: 14px; background: linear-gradient(145deg,#ffffff0e,#ffffff06); }
+    .profile-item i { position: absolute; top: 12px; right: 15px; color: #ffffff24; font-size: 20px; font-style: normal; font-weight: 800; }
+    .profile-item h3 { max-width: 88%; margin: 0 0 8px; font-size: 13px; line-height: 1.5; }.profile-item p { margin: 0; color: #aeb0bf; font-size: 13px; }
+    .profile-left { grid-column: 1; }.profile-right { grid-column: 3; }.profile-row-1 { grid-row: 1; }.profile-row-2 { grid-row: 2; }.profile-row-3 { grid-row: 3; }.profile-row-4 { grid-row: 4; }
+    .profile-attachment { margin-top: 22px; padding: 18px 20px; border: 1px dashed #ffffff35; border-radius: 14px; background: #ffffff08; }
+    .profile-attachment-title { margin: 0 0 6px; color: #fff; font-size: 14px; }
+    .profile-attachment-help { margin: 0 0 14px; color: #9294a3; font-size: 12px; line-height: 1.6; }
+    .profile-attachment-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .profile-attachment-button { display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 16px; border: 1px solid #ff8da766; border-radius: 999px; color: #fff; background: #ff6b8b22; font: inherit; font-size: 12px; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .profile-attachment-button:hover,.profile-attachment-button:focus-visible { border-color: #ff8da7; background: #ff6b8b38; }
+    .profile-attachment-remove { border-color: #ffffff28; background: #ffffff0b; }
+    .profile-attachment-file { color: #c9cad3; font-size: 12px; overflow-wrap: anywhere; }
+    .profile-attachment-status { min-height: 1.5em; margin: 10px 0 0; color: #ffb4c5; font-size: 12px; }
+
+    @media (max-width: 680px) {
+      .nav {
+        top: 19px;
+        right: 18px;
+        left: 18px;
+      }
+
+      .copy {
+        right: 18px;
+        bottom: 15vh;
+        left: 18px;
+      }
+
+      h1 {
+        font-size: 16.5vw;
+      }
+
+      .description {
+        font-size: 13px;
+      }
+
+      .bottom {
+        right: 18px;
+        bottom: 19px;
+        left: 18px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .people {
+        grid-template-columns: 1fr;
+      }
+
+      .person {
+        min-height: 0;
+      }
+
+      .team-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .profile-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+      .profile-photo { grid-column: 1 / 3; grid-row: auto; width: min(320px, 90%); min-height: 430px; margin: auto; }
+      .profile-item { grid-column: auto; grid-row: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="hero">
+    <canvas id="dynamic-rainbow" aria-hidden="true"></canvas>
+    <div class="veil"></div>
+    <header class="nav">
+      <div class="brand"><i></i>CODEGUARD AI</div><a href="#team">认识团队</a>
+    </header>
+    <section class="copy" id="start">
+      <p class="eyebrow">OUR PEOPLE / 2026</p>
+      <h1><span><b>认识每一位</b></span><span><b>创造者。</b></span></h1>
+      <p class="description">我们来自不同领域，因为对可靠技术与优秀体验的共同追求走到一起。</p>
+    </section>
+    <div class="bottom"><span><i class="down">↓</i>向下了解团队</span><span>01 / 02</span></div>
+  </main>
+  <section class="team" id="team">
+    <div class="team-heading">
+      <div>
+        <p>MEET THE TEAM</p>
+        <h2>员工介绍</h2>
+      </div><span>每一项成果都来自清晰的分工、坦诚的协作，以及对细节的长期坚持。</span>
+    </div>
+    <div class="team-groups">
+      <section class="team-group" data-group="dev1">
+        <header class="team-group-heading"><h3>开发1组</h3><span>DEVELOPMENT TEAM 01</span></header>
+        <div class="people" data-group-people="dev1">
+      <a class="person" href="#zhu-yonghong-profile" aria-label="查看朱勇红的详细资料">
+        <div class="portrait" style="--portrait:linear-gradient(135deg,#ff6b8b,#754cff)">朱</div><small>PRODUCT &amp;
+          STRATEGY</small>
+        <h3>朱勇红 · 项目负责人</h3>
+        <p>连接用户需求与产品方向，推动团队把复杂问题转化为简单、可靠的解决方案。</p>
+        <span class="profile-link">查看详细资料 →</span>
+      </a>
+        </div>
+        <button class="add-people group-add-person" data-add-group="dev1" type="button">＋ 添加同事</button>
+      </section>
+      <section class="team-group" data-group="dev2">
+        <header class="team-group-heading"><h3>开发2组</h3><span>DEVELOPMENT TEAM 02</span></header>
+        <div class="people" data-group-people="dev2">
+      <a class="person" href="#zhang-yuanyuan-profile" aria-label="查看张媛媛的详细资料">
+        <div class="portrait" style="--portrait:linear-gradient(135deg,#36c7b4,#3168db)">张</div>
+        <small>ENGINEERING</small>
+        <h3>张媛媛 · 技术负责人</h3>
+        <p>负责系统架构与工程质量，关注安全、性能以及可以长期演进的技术基础。</p>
+        <span class="profile-link">查看详细资料 →</span>
+      </a>
+        </div>
+        <button class="add-people group-add-person" data-add-group="dev2" type="button">＋ 添加同事</button>
+      </section>
+      <section class="team-group" data-group="hr">
+        <header class="team-group-heading"><h3>人事部</h3><span>HUMAN RESOURCES</span></header>
+        <div class="people" data-group-people="hr">
+      <a class="person" href="#zhou-ning-profile" aria-label="查看周宁的详细资料">
+        <div class="portrait" style="--portrait:linear-gradient(135deg,#ffb33f,#e94d82)">周</div><small>DESIGN</small>
+        <h3>周宁 · 体验设计师</h3>
+        <p>从研究到交互与视觉，让每一次操作自然清晰，也让技术产品拥有温度。</p>
+        <span class="profile-link">查看详细资料 →</span>
+      </a>
+        </div>
+        <button class="add-people group-add-person" data-add-group="hr" type="button">＋ 添加同事</button>
+      </section>
+    </div>
+    <section class="profile-detail" id="zhu-yonghong-profile">
+      <div class="profile-popup">
+        <a class="profile-close" href="#team" aria-label="閉じる">×</a>
+        <header class="profile-title"><small>MEMBER PROFILE</small><h2>朱勇红</h2></header>
+        <div class="profile-grid">
+          <div class="profile-photo"><img src="zhu-yonghong.jpg" alt="朱勇红"><div class="photo-name"><b>朱勇红</b><small>ZHU YONGHONG</small></div></div>
+          <article class="profile-item profile-left profile-row-1"><i>01</i><h3>＜好き・得意なこと＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-1"><i>02</i><h3>＜嫌い・苦手なこと＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-2"><i>03</i><h3>＜趣味＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-2"><i>04</i><h3>＜夢＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-3"><i>05</i><h3>＜好きな食べ物＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-3"><i>06</i><h3>＜出身地＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-4"><i>07</i><h3>＜今一番ほしいものや<br>行きたい場所など＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-4"><i>08</i><h3>＜最近取り組みたいこと＞</h3><p>未登録</p></article>
+        </div>
+      </div>
+      <small>PROFILE / PROJECT LEAD</small>
+      <h2>朱勇红</h2>
+      <p>项目负责人，负责连接用户需求与产品方向，协调团队工作，并推动复杂问题转化为简单、可靠、可落地的解决方案。</p>
+      <a class="home-link" href="#team">↑ 返回团队名片</a>
+    </section>
+    <section class="profile-detail" id="zhang-yuanyuan-profile">
+      <div class="profile-popup">
+        <a class="profile-close" href="#team" aria-label="閉じる">×</a>
+        <header class="profile-title"><small>MEMBER PROFILE</small><h2>张媛媛</h2></header>
+        <div class="profile-grid">
+          <div class="profile-photo no-photo">
+            <div class="empty-portrait" aria-label="暂无照片"><span class="head"></span><span class="body"></span><em>NO PHOTO</em></div>
+            <div class="photo-name"><b>张媛媛</b><small>ZHANG YUANYUAN</small></div>
+          </div>
+          <article class="profile-item profile-left profile-row-1"><i>01</i><h3>＜好き・得意なこと＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-1"><i>02</i><h3>＜嫌い・苦手なこと＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-2"><i>03</i><h3>＜趣味＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-2"><i>04</i><h3>＜夢＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-3"><i>05</i><h3>＜好きな食べ物＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-3"><i>06</i><h3>＜出身地＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-4"><i>07</i><h3>＜今一番ほしいものや<br>行きたい場所など＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-4"><i>08</i><h3>＜最近取り組みたいこと＞</h3><p>未登録</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="profile-detail" id="zhou-ning-profile">
+      <div class="profile-popup">
+        <a class="profile-close" href="#team" aria-label="閉じる">×</a>
+        <header class="profile-title"><small>MEMBER PROFILE</small><h2>周宁</h2></header>
+        <div class="profile-grid">
+          <div class="profile-photo no-photo">
+            <div class="empty-portrait" aria-label="暂无照片"><span class="head"></span><span class="body"></span><em>NO PHOTO</em></div>
+            <div class="photo-name"><b>周宁</b><small>ZHOU NING</small></div>
+          </div>
+          <article class="profile-item profile-left profile-row-1"><i>01</i><h3>＜好き・得意なこと＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-1"><i>02</i><h3>＜嫌い・苦手なこと＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-2"><i>03</i><h3>＜趣味＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-2"><i>04</i><h3>＜夢＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-3"><i>05</i><h3>＜好きな食べ物＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-3"><i>06</i><h3>＜出身地＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-left profile-row-4"><i>07</i><h3>＜今一番ほしいものや<br>行きたい場所など＞</h3><p>未登録</p></article>
+          <article class="profile-item profile-right profile-row-4"><i>08</i><h3>＜最近取り組みたいこと＞</h3><p>未登録</p></article>
+        </div>
+      </div>
+    </section>
+    <div style="max-width:1180px;margin:0 auto"><a class="home-link" href="index.html">← 返回 CodeGuard AI</a></div>
+    <footer class="page-footer">
+      <a class="back-to-top" href="#start" aria-label="返回网站最上方">
+        <i aria-hidden="true">↑</i>
+        <span>上へ</span>
+      </a>
+    </footer>
+  </section>
+  <script>
+    (() => {
+      const canvas = document.querySelector('#dynamic-rainbow');
+      const context = canvas.getContext('2d');
+      const hero = document.querySelector('.hero');
+      const colors = ['#ff3f8e', '#ff8b3d', '#ffe55e', '#7ef08d', '#3ee3ff', '#7488ff', '#cf6dff'];
+      let width = 0, height = 0, dpr = 1;
+      function resize () {
+        const box = hero.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = box.width; height = box.height;
+        canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
+        context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function paint (time) {
+        const t = time * .00016;
+        context.fillStyle = '#030306'; context.fillRect(0, 0, width, height);
+        context.globalCompositeOperation = 'lighter';
+        for (let band = 0; band < 38; band += 1) {
+          const progress = (t + band / 38) % 1.12;
+          const hue = colors[band % colors.length];
+          const baseY = height + 120 - progress * (height + 250);
+          const spread = .24 + progress * .7;
+          const center = width * (.5 + Math.sin(t * 2 + band) * .09);
+          const gradient = context.createLinearGradient(0, baseY, width, baseY - height * .22);
+          gradient.addColorStop(0, hue + '00');
+          gradient.addColorStop(.27, hue + '32');
+          gradient.addColorStop(.5, hue + 'a8');
+          gradient.addColorStop(.74, hue + '32');
+          gradient.addColorStop(1, hue + '00');
+          context.strokeStyle = gradient;
+          context.lineWidth = 1.2 + (1 - progress) * 3.2;
+          context.beginPath();
+          for (let x = -40; x <= width + 40; x += 18) {
+            const normalized = (x - center) / width;
+            const wave = Math.sin(x * .008 + t * 19 + band * .64) * (12 + progress * 31);
+            const arc = normalized * normalized * height * spread * .72;
+            const y = baseY + arc + wave;
+            if (x < 0) context.moveTo(x, y); else context.lineTo(x, y);
+          }
+          context.stroke();
+        }
+        context.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(paint);
+      }
+      new ResizeObserver(resize).observe(hero);
+      resize(); requestAnimationFrame(paint);
+
+      const peopleGroups = new Map(
+        [...document.querySelectorAll('[data-group-people]')].map((container) => [container.dataset.groupPeople, container])
+      );
+      const team = document.querySelector('.team');
+      const addPeopleButtons = document.querySelectorAll('[data-add-group]');
+      const storageKey = 'codeguard-team-draft-cards';
+      const profileDetailsStorageKey = 'codeguard-profile-details';
+      const attachmentDatabase = 'codeguard-profile-attachments';
+      const attachmentStore = 'files';
+      const maxAttachmentSize = 10 * 1024 * 1024;
+
+      function openAttachmentDatabase () {
+        return new Promise((resolve, reject) => {
+          const request = indexedDB.open(attachmentDatabase, 1);
+          request.onupgradeneeded = () => request.result.createObjectStore(attachmentStore);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+      }
+
+      async function accessAttachment (mode, key, value) {
+        const database = await openAttachmentDatabase();
+        return new Promise((resolve, reject) => {
+          const transaction = database.transaction(attachmentStore, mode);
+          const store = transaction.objectStore(attachmentStore);
+          const request = value === undefined
+            ? store.get(key)
+            : value === null ? store.delete(key) : store.put(value, key);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+          transaction.oncomplete = () => database.close();
+        });
+      }
+
+      function formatFileSize (bytes) {
+        return bytes < 1024 * 1024
+          ? `${Math.ceil(bytes / 1024)} KB`
+          : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+      }
+
+      async function refreshAttachment (section) {
+        const name = section.querySelector('[data-attachment-name]');
+        const open = section.querySelector('[data-attachment-open]');
+        const remove = section.querySelector('[data-attachment-remove]');
+        const input = section.querySelector('[data-attachment-input]');
+        const file = await accessAttachment('readonly', section.dataset.profileId);
+        if (open.dataset.objectUrl) URL.revokeObjectURL(open.dataset.objectUrl);
+        if (!file) {
+          name.textContent = '尚未添加附件';
+          open.hidden = true;
+          remove.hidden = true;
+          input.value = '';
+          return;
+        }
+        const objectUrl = URL.createObjectURL(file.blob);
+        open.dataset.objectUrl = objectUrl;
+        open.href = objectUrl;
+        if (file.type === 'application/pdf') {
+          open.removeAttribute('download');
+          open.target = '_blank';
+          open.rel = 'noopener';
+          open.textContent = '打开附件';
+        } else {
+          open.download = file.name;
+          open.removeAttribute('target');
+          open.removeAttribute('rel');
+          open.textContent = '下载附件';
+        }
+        open.hidden = false;
+        remove.hidden = false;
+        name.textContent = `${file.name} · ${formatFileSize(file.size)}`;
+      }
+
+      function addAttachmentArea (profile) {
+        const section = document.createElement('section');
+        section.className = 'profile-attachment';
+        section.dataset.profileId = profile.id;
+        section.innerHTML = `
+          <h3 class="profile-attachment-title">自我介绍附件</h3>
+          <p class="profile-attachment-help">可添加 PDF、Word 或 TXT 文件，最大 10MB。附件仅保存在当前浏览器中。</p>
+          <div class="profile-attachment-actions">
+            <label class="profile-attachment-button">选择附件<input data-attachment-input type="file" accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" hidden></label>
+            <a class="profile-attachment-button" data-attachment-open hidden>打开附件</a>
+            <button class="profile-attachment-button profile-attachment-remove" data-attachment-remove type="button" hidden>删除附件</button>
+            <span class="profile-attachment-file" data-attachment-name>尚未添加附件</span>
+          </div>
+          <p class="profile-attachment-status" data-attachment-status aria-live="polite"></p>`;
+        profile.querySelector('.profile-popup').appendChild(section);
+        refreshAttachment(section).catch(() => {
+          section.querySelector('[data-attachment-status]').textContent = '无法读取本地附件，请检查浏览器存储权限。';
+        });
+      }
+
+      function loadProfileDetails () {
+        let savedDetails = {};
+        try {
+          savedDetails = JSON.parse(localStorage.getItem(profileDetailsStorageKey) || '{}');
+        } catch (error) {
+          savedDetails = {};
+        }
+        document.querySelectorAll('.profile-detail:not(.draft-profile)').forEach((profile) => {
+          profile.querySelectorAll('.profile-item p').forEach((field, index) => {
+            field.contentEditable = 'true';
+            field.dataset.staticDetailField = index;
+            field.setAttribute('role', 'textbox');
+            field.setAttribute('aria-label', `${profile.querySelector('.profile-title h2').textContent}的详细资料第 ${index + 1} 项`);
+            const savedValue = savedDetails[profile.id]?.[index];
+            field.textContent = savedValue !== undefined ? savedValue : (field.textContent.trim() === '未登録' ? '' : field.textContent);
+          });
+        });
+      }
+
+      function saveProfileDetails () {
+        const details = {};
+        document.querySelectorAll('.profile-detail:not(.draft-profile)').forEach((profile) => {
+          details[profile.id] = [...profile.querySelectorAll('[data-static-detail-field]')]
+            .map((field) => field.innerText.trim());
+        });
+        try {
+          localStorage.setItem(profileDetailsStorageKey, JSON.stringify(details));
+        } catch (error) {
+          // 本地存储不可用时仍允许继续编辑。
+        }
+      }
+
+      function createBlankPerson (values = {}) {
+        const draftId = values.id || `draft-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const card = document.createElement('article');
+        card.className = 'person blank-person';
+        card.dataset.draftId = draftId;
+        const fields = [
+          ['div', 'portrait', '姓', values.initial || ''],
+          ['small', '', '部门 / 职能', values.department || ''],
+          ['h3', '', '姓名 · 职位', values.name || ''],
+          ['p', '', '请填写个人简介', values.description || '']
+        ];
+        fields.forEach(([tag, className, placeholder, value], index) => {
+          const field = document.createElement(tag);
+          if (className) field.className = className;
+          field.contentEditable = 'true';
+          field.dataset.placeholder = placeholder;
+          field.dataset.field = ['initial', 'department', 'name', 'description'][index];
+          field.textContent = value;
+          field.setAttribute('aria-label', placeholder);
+          card.appendChild(field);
+        });
+        const groupSelect = document.createElement('select');
+        groupSelect.className = 'person-group-select';
+        groupSelect.dataset.groupSelect = '';
+        groupSelect.setAttribute('aria-label', '所属分组');
+        groupSelect.innerHTML = `
+          <option value="dev1">开发1组</option>
+          <option value="dev2">开发2组</option>
+          <option value="hr">人事部</option>`;
+        groupSelect.value = peopleGroups.has(values.group) ? values.group : 'dev1';
+        card.appendChild(groupSelect);
+        const profileLink = document.createElement('a');
+        profileLink.className = 'profile-link';
+        profileLink.href = `#${draftId}-profile`;
+        profileLink.textContent = '查看详细资料 →';
+        profileLink.setAttribute('aria-label', '打开该同事的详细资料');
+        card.appendChild(profileLink);
+        return card;
+      }
+
+      function createBlankProfile (values = {}) {
+        const detailValues = Array.isArray(values.details) ? values.details : [];
+        const profile = document.createElement('section');
+        profile.className = 'profile-detail draft-profile';
+        profile.id = `${values.id}-profile`;
+        profile.dataset.draftId = values.id;
+        profile.innerHTML = `
+          <div class="profile-popup">
+            <a class="profile-close" href="#team" aria-label="关闭">×</a>
+            <header class="profile-title"><small>MEMBER PROFILE</small><h2 data-profile-name></h2></header>
+            <div class="profile-grid">
+              <div class="profile-photo no-photo">
+                <div class="empty-portrait" aria-label="暂无照片"><span class="head"></span><span class="body"></span><em>NO PHOTO</em></div>
+                <div class="photo-name"><b data-photo-name></b><small>NEW MEMBER</small></div>
+              </div>
+              <article class="profile-item profile-left profile-row-1"><i>01</i><h3>＜好き・得意なこと＞</h3><p contenteditable="true" data-detail-field="0"></p></article>
+              <article class="profile-item profile-right profile-row-1"><i>02</i><h3>＜嫌い・苦手なこと＞</h3><p contenteditable="true" data-detail-field="1"></p></article>
+              <article class="profile-item profile-left profile-row-2"><i>03</i><h3>＜趣味＞</h3><p contenteditable="true" data-detail-field="2"></p></article>
+              <article class="profile-item profile-right profile-row-2"><i>04</i><h3>＜夢＞</h3><p contenteditable="true" data-detail-field="3"></p></article>
+              <article class="profile-item profile-left profile-row-3"><i>05</i><h3>＜好きな食べ物＞</h3><p contenteditable="true" data-detail-field="4"></p></article>
+              <article class="profile-item profile-right profile-row-3"><i>06</i><h3>＜出身地＞</h3><p contenteditable="true" data-detail-field="5"></p></article>
+              <article class="profile-item profile-left profile-row-4"><i>07</i><h3>＜今一番ほしいものや<br>行きたい場所など＞</h3><p contenteditable="true" data-detail-field="6"></p></article>
+              <article class="profile-item profile-right profile-row-4"><i>08</i><h3>＜最近取り組みたいこと＞</h3><p contenteditable="true" data-detail-field="7"></p></article>
+            </div>
+          </div>`;
+        const displayName = values.name || '待填写姓名';
+        profile.querySelector('[data-profile-name]').textContent = displayName;
+        profile.querySelector('[data-photo-name]').textContent = displayName;
+        profile.querySelectorAll('[data-detail-field]').forEach((field, index) => {
+          field.textContent = detailValues[index] || '';
+        });
+        addAttachmentArea(profile);
+        return profile;
+      }
+
+      function appendBlankPerson (values = {}) {
+        const card = createBlankPerson(values);
+        const profileValues = { ...values, id: card.dataset.draftId };
+        peopleGroups.get(card.querySelector('[data-group-select]').value).appendChild(card);
+        team.appendChild(createBlankProfile(profileValues));
+      }
+
+      function saveDraftCards () {
+        const drafts = [...team.querySelectorAll('.blank-person')].map((card) => {
+          const value = {
+            id: card.dataset.draftId,
+            group: card.querySelector('[data-group-select]').value
+          };
+          card.querySelectorAll('[data-field]').forEach((field) => {
+            value[field.dataset.field] = field.innerText.trim();
+          });
+          const profile = document.getElementById(`${value.id}-profile`);
+          value.details = [...profile.querySelectorAll('[data-detail-field]')].map((field) => field.innerText.trim());
+          return value;
+        });
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(drafts));
+        } catch (error) {
+          // 在禁用本地存储时仍允许继续添加和编辑名片。
+        }
+      }
+
+      function appendPersonToGroup (group) {
+        const groupNames = { dev1: '开发1组', dev2: '开发2组', hr: '人事部' };
+        appendBlankPerson({ group, department: groupNames[group] });
+        saveDraftCards();
+      }
+
+      try {
+        const savedCards = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        if (Array.isArray(savedCards)) savedCards.forEach(appendBlankPerson);
+      } catch (error) {
+        // 本地存储不可用时从空白状态开始。
+      }
+
+      document.querySelectorAll('.profile-detail:not(.draft-profile)').forEach(addAttachmentArea);
+      loadProfileDetails();
+
+      addPeopleButtons.forEach((button) => {
+        button.addEventListener('click', () => appendPersonToGroup(button.dataset.addGroup));
+      });
+      team.addEventListener('change', async (event) => {
+        const input = event.target.closest('[data-attachment-input]');
+        if (input) {
+          const section = input.closest('.profile-attachment');
+          const status = section.querySelector('[data-attachment-status]');
+          const file = input.files[0];
+          status.textContent = '';
+          if (!file) return;
+          if (file.size > maxAttachmentSize) {
+            status.textContent = '文件超过 10MB，请选择更小的附件。';
+            input.value = '';
+            return;
+          }
+          try {
+            await accessAttachment('readwrite', section.dataset.profileId, {
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              updatedAt: Date.now(),
+              blob: file
+            });
+            await refreshAttachment(section);
+            status.textContent = '附件已保存。';
+          } catch (error) {
+            status.textContent = '附件保存失败，请检查浏览器存储空间或权限。';
+          }
+          return;
+        }
+        const groupSelect = event.target.closest('[data-group-select]');
+        if (!groupSelect) return;
+        peopleGroups.get(groupSelect.value).appendChild(groupSelect.closest('.blank-person'));
+        saveDraftCards();
+      });
+      team.addEventListener('click', async (event) => {
+        const remove = event.target.closest('[data-attachment-remove]');
+        if (!remove) return;
+        const section = remove.closest('.profile-attachment');
+        const status = section.querySelector('[data-attachment-status]');
+        try {
+          await accessAttachment('readwrite', section.dataset.profileId, null);
+          await refreshAttachment(section);
+          status.textContent = '附件已删除。';
+        } catch (error) {
+          status.textContent = '附件删除失败，请稍后重试。';
+        }
+      });
+      team.addEventListener('input', (event) => {
+        const card = event.target.closest('.blank-person');
+        const profile = event.target.closest('.draft-profile');
+        const staticDetail = event.target.closest('[data-static-detail-field]');
+        if (card && event.target.dataset.field === 'name') {
+          const linkedProfile = document.getElementById(`${card.dataset.draftId}-profile`);
+          const displayName = event.target.innerText.trim() || '待填写姓名';
+          linkedProfile.querySelector('[data-profile-name]').textContent = displayName;
+          linkedProfile.querySelector('[data-photo-name]').textContent = displayName;
+        }
+        if (card || profile) saveDraftCards();
+        if (staticDetail) saveProfileDetails();
+      });
+    })();
+  </script>
+</body>
+
+</html>

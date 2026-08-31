@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BETTER - Creative Office</title>
+    <style>
+
+:root {
+  --paper: #fff;
+  --ink: #121212;
+  --accent: #e8ff00;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial,"Helvetica Neue",sans-serif;
+}
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 25px 30px 22px;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: .1em;
+}
+.brand {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+.brand-symbol {
+  width: 13px;
+  height: 13px;
+  background: var(--ink);
+  display: inline-block;
+  transform: rotate(45deg);
+}
+.topbar a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 3px;
+}
+.splash {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+}
+.form {
+  position: absolute;
+  width: min(43vw,620px);
+  aspect-ratio: 1;
+  right: 1vw;
+  top: 51%;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translateY(-50%) scale(.82);
+  animation: arrive 1.1s cubic-bezier(.16,.8,.2,1) forwards;
+}
+.form::before,.form::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.form::before {
+  width: 42%;
+  height: 42%;
+  left: 13%;
+  top: 13%;
+  background: var(--paper);
+  transform-origin: 170% 170%;
+  animation: orbit-white 11s linear infinite;
+}
+.form::after {
+  width: 37%;
+  height: 37%;
+  right: 10%;
+  bottom: 10%;
+  background: var(--accent);
+  transform-origin: -85% -85%;
+  animation: orbit-yellow 15s linear infinite;
+}
+@keyframes arrive {
+  to {
+    transform: translateY(-50%) scale(1);
+  }
+}
+@keyframes orbit-white {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-yellow {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+.orbit {
+  position: absolute;
+  inset: 6%;
+  border: 1px solid #ffffff55;
+  border-radius: 50%;
+  animation: spin 16s linear infinite;
+}
+.orbit::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  top: -9px;
+  left: 50%;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  margin: auto 0 0;
+}
+.kicker {
+  margin: 0 0 16px;
+  font-size: 11px;
+  letter-spacing: .13em;
+  font-weight: 700;
+}
+.headline {
+  position: relative;
+  margin: 0;
+  max-width: 56vw;
+  color: var(--ink);
+  font-size: clamp(86px,11vw,178px);
+  line-height: .78;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+.headline::after {
+  content: "BETTER";
+  position: absolute;
+  inset: 0;
+  color: #fff;
+  pointer-events: none;
+  clip-path: ellipse(34% 125% at 101% 50%);
+}
+.headline span {
+  display: block;
+  overflow: hidden;
+}
+.headline b {
+  display: block;
+  font-weight: 900;
+  transform: translateY(105%);
+  animation: rise .82s cubic-bezier(.16,.8,.2,1) .18s forwards;
+}
+@keyframes rise {
+  to {
+    transform: translateY(0);
+  }
+}
+.caption {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 170px minmax(180px,270px);
+  gap: 30px;
+  max-width: 510px;
+  margin-top: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.42;
+}
+.caption p {
+  margin: 0;
+}
+.caption p:last-child {
+  border-top: 1px solid var(--ink);
+  padding-top: 8px;
+}
+.footer-line {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+}
+.footer-line a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.arrow {
+  font-size: 20px;
+  line-height: .6;
+  animation: nudge 1s ease-in-out infinite alternate;
+}
+@keyframes nudge {
+  to {
+    transform: translateY(6px);
+  }
+}
+.next {
+  min-height: 68vh;
+  padding: 90px 30px;
+  background: var(--ink);
+  color: var(--paper);
+  display: grid;
+  align-content: center;
+  gap: 25px;
+}
+.next small {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+.next h2 {
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(42px,7vw,98px);
+  line-height: .9;
+  letter-spacing: 0;
+}
+.next p {
+  max-width: 450px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+@media(max-width:700px) {
+  .hero {
+    padding: 20px 18px;
+  }
+  .form {
+    width: 82vw;
+    right: -27vw;
+    top: 56%;
+    opacity: .15;
+  }
+  .headline {
+    max-width: none;
+    font-size: 21vw;
+  }
+  .headline::after {
+    display: none;
+  }
+  .caption {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .caption p:first-child {
+    display: none;
+  }
+  .next {
+    padding: 65px 18px;
+  }
+}
+    
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-labelledby="better-title">
+        <div class="splash" aria-hidden="true"><canvas id="rainbow-field"></canvas><div class="rainbow-glow"></div></div>
+        <header class="topbar"><div class="brand"><i class="brand-symbol"></i><span data-i18n="brand">BETTER 创意事务所</span></div><div class="top-actions"><a href="#about" data-i18n="menu">菜单</a><div class="language-switch" aria-label="语言切换"><button class="language active" type="button" data-language="zh">中</button><button class="language" type="button" data-language="en">EN</button><button class="language" type="button" data-language="ja">日</button></div></div></header>
+        <div class="hero-content"><p class="kicker" data-i18n="kicker">创意方向 / 2026</p><h1 class="headline" id="better-title"><span><b data-i18n="heroLine1">构建你的下一个项目</b></span><span><b data-i18n="heroLine2">几分钟，而不是几小时。</b></span></h1></div>
+        <div class="caption"><p data-i18n="captionLead">让日常的改变<br>更有方向。</p><p data-i18n="captionCopy">以鲜明的观点，建立更值得被记住的品牌、数字空间与体验。</p></div>
+        <div class="footer-line"><a href="#about"><span class="arrow">↓</span><span data-i18n="scroll">向下探索</span></a><span>01 — 02</span></div>
+      </section>
+      <section class="next" id="about"><small data-i18n="practice">BETTER 的实践</small><h2 data-i18n-html="practiceTitle">不必更响亮。<br>只需更<span style="color:var(--accent)">有意义。</span></h2><p data-i18n="practiceCopy">将策略、品牌识别与体验，汇聚为一条清晰的方向。</p></section>
+      <section class="works" aria-labelledby="works-title">
+        <header class="works-head"><div><small data-i18n="worksLabel">精选项目 / 2026</small><h2 id="works-title" data-i18n="worksTitle">制作实绩</h2></div><span data-i18n="projects">06 个项目</span></header>
+        <div class="works-grid">
+          <article class="work-card work-large" id="north-house"><figure><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1500&q=85" alt="现代创意办公室"><span>01</span></figure><div><small data-i18n="category1">品牌 / 空间</small><h3><a href="#north-house">North House</a></h3></div></article>
+          <article class="work-card" id="plain-objects"><figure><img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=1100&q=85" alt="极简家居陈列"><span>02</span></figure><div><small data-i18n="category2">识别 / 零售</small><h3><a href="#plain-objects">Plain Objects</a></h3></div></article>
+          <article class="work-card" id="common-room"><figure><img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1100&q=85" alt="木质室内空间"><span>03</span></figure><div><small data-i18n="category3">数字 / 文化</small><h3><a href="#common-room">Common Room</a></h3></div></article>
+          <article class="work-card" id="circles-app"><figure><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1100&q=85" alt="桌面上的数码设备"><span>04</span></figure><div><small data-i18n="category4">产品 / 服务</small><h3><a href="#circles-app">Circles App</a></h3></div></article>
+          <article class="work-card" id="open-city"><figure><img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1100&q=85" alt="建筑几何细节"><span>05</span></figure><div><small data-i18n="category5">企划 / 城市</small><h3><a href="#open-city">Open City</a></h3></div></article>
+          <article class="work-card work-wide" id="after-light"><figure><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1500&q=85" alt="城市夜景"><span>06</span></figure><div><small data-i18n="category6">影像 / 创意指导</small><h3><a href="#after-light">After Light</a></h3></div></article>
+        </div>
+      </section>
+    </main>
+    <style>
+
+.headline::after {
+  display: none;
+}
+.headline {
+  cursor: default;
+  transition: color .28s ease;
+}
+.splash,.topbar,.kicker,.caption,.footer-line,.form {
+  transition: color .28s ease,background .28s ease,outline-color .28s ease;
+}
+.hero.title-hover .splash {
+  background: var(--ink);
+}
+.hero.title-hover .headline,.hero.title-hover .topbar,.hero.title-hover .kicker,.hero.title-hover .caption,.hero.title-hover .footer-line {
+  color: var(--paper);
+}
+.hero.title-hover .caption p:last-child {
+  border-color: var(--paper);
+}
+.hero.title-hover .form {
+  outline: 1px solid #ffffff33;
+}
+.hero {
+  min-height: 780px;
+  color: #f8f8fb;
+  background: #050509;
+}
+.splash {
+  background: #050509;
+}
+.splash::before {
+  position: absolute;
+  inset: -48% -28%;
+  z-index: 0;
+  content: "";
+  background: conic-gradient(from 180deg at 50% 100%,#ff3d8100 14%,#ff3d81aa 21%,#ff8b39aa 31%,#ffe66daa 41%,#8cff6baa 51%,#42e8ffaa 61%,#7487ffaa 71%,#c56bffaa 81%,#ff3d8100 90%);
+  filter: blur(42px);
+  opacity: .5;
+  transform: translateY(22%);
+  animation: rainbow-rise 11s ease-in-out infinite alternate;
+}
+@keyframes rainbow-rise {
+  from { transform: translateY(24%) scale(.92); }
+  to { transform: translateY(-8%) scale(1.08); }
+}
+#rainbow-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+.rainbow-glow {
+  position: absolute;
+  right: 12%;
+  bottom: -24%;
+  left: 12%;
+  height: 65%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, #ffffff12 0%, #ffffff00 68%);
+  filter: blur(28px);
+}
+.hero-content {
+  max-width: 980px;
+  margin: auto 0 0;
+}
+.kicker {
+  color: #b9bbc9;
+}
+.headline {
+  max-width: 980px;
+  color: #fff;
+  font-size: clamp(54px, 8.2vw, 126px);
+  line-height: .91;
+  letter-spacing: -.025em;
+}
+.headline span {
+  overflow: visible;
+}
+.headline span + span {
+  margin-left: clamp(22px, 8vw, 130px);
+}
+.headline b {
+  background: linear-gradient(100deg,#fff 16%,#d8d9ff 44%,#fff 74%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.caption {
+  max-width: 650px;
+  color: #c3c4d0;
+}
+.caption p:last-child {
+  border-color: #6e7081;
+}
+.footer-line {
+  color: #bfc0cb;
+}
+.topbar {
+  color: #f5f5f9;
+}
+.brand-symbol {
+  background: #fff;
+}
+.language-switch {
+  color: #f5f5f9;
+}
+.language.active {
+  color: #050509;
+  background: #fff;
+}
+.hero.title-hover .splash {
+  background: #050509;
+}
+.hero.title-hover .headline,.hero.title-hover .topbar,.hero.title-hover .kicker,.hero.title-hover .caption,.hero.title-hover .footer-line {
+  color: #fff;
+}
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.language-switch {
+  display: flex;
+  border: 1px solid currentColor;
+}
+.language {
+  width: 31px;
+  height: 25px;
+  border: 0;
+  border-right: 1px solid currentColor;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.language:last-child {
+  border-right: 0;
+}
+.language.active {
+  color: var(--paper);
+  background: var(--ink);
+}
+.hero.title-hover .language.active {
+  color: var(--ink);
+  background: var(--paper);
+}
+.works {
+  min-height: 100svh;
+  padding: 34px 30px 42px;
+  background: var(--paper);
+}
+.works-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 14px;
+}
+.works-head small,.works-head>span,.work-card small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+.works-head h2 {
+  margin: 7px 0 0;
+  font-size: clamp(42px,5.6vw,76px);
+  line-height: .8;
+  letter-spacing: 0;
+}
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 24px 14px;
+}
+.work-card {
+  display: block;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(42px);
+  transition: opacity .75s ease,transform .75s cubic-bezier(.16,.8,.2,1);
+}
+.work-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.work-card:nth-child(2) {
+  transition-delay: .08s;
+}
+.work-card:nth-child(3) {
+  transition-delay: .14s;
+}
+.work-card:nth-child(4) {
+  transition-delay: .19s;
+}
+.work-card:nth-child(5) {
+  transition-delay: .24s;
+}
+.work-card:nth-child(6) {
+  transition-delay: .29s;
+}
+.work-card figure {
+  position: relative;
+  aspect-ratio: 1.48;
+  margin: 0 0 12px;
+  overflow: hidden;
+  background: #d8d8d8;
+}
+.work-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(.76);
+  transition: transform .8s cubic-bezier(.16,.8,.2,1),filter .5s ease;
+}
+.work-card:hover img {
+  transform: scale(1.055);
+  filter: saturate(1);
+}
+.work-card figure span {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  mix-blend-mode: difference;
+}
+.work-card>div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 15px;
+  border-top: 1px solid var(--ink);
+  padding-top: 9px;
+}
+.work-card h3 {
+  margin: 0;
+  font-size: clamp(20px,2vw,30px);
+  letter-spacing: 0;
+}
+.work-card h3 a {
+  position: relative;
+  display: inline-block;
+  padding: 1px 5px 3px;
+  color: inherit;
+  text-decoration: none;
+  transition: color .2s ease,background .2s ease;
+}
+.work-card h3 a::after {
+  position: absolute;
+  right: 0;
+  bottom: -3px;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .25s ease;
+}
+.work-card h3 a:hover::after,.work-card:target h3 a::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.work-card:target h3 a {
+  color: var(--paper);
+  background: var(--ink);
+}
+.work-large,.work-wide {
+  grid-column: auto;
+}
+.work-large figure,.work-wide figure {
+  aspect-ratio: 1.48;
+}
+@media(max-width:700px) {
+  .works {
+    padding: 68px 18px;
+  }
+  .works-head {
+    margin-bottom: 28px;
+  }
+  .works-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 20px 9px;
+  }
+  .work-large,.work-wide {
+    grid-column: auto;
+  }
+  .work-large figure,.work-wide figure {
+    aspect-ratio: 1.34;
+  }
+  .work-card>div {
+    display: block;
+  }
+  .work-card h3 {
+    margin-top: 5px;
+  }
+}
+    
+    </style>
+    <script>
+      const hero = document.querySelector('.hero');
+      const headline = document.querySelector('.headline');
+      const rainbowCanvas = document.querySelector('#rainbow-field');
+      const rainbowContext = rainbowCanvas.getContext('2d');
+      const rainbowColors = ['#ff3d81', '#ff8b39', '#ffe66d', '#8cff6b', '#42e8ff', '#7487ff', '#c56bff'];
+      let rainbowWidth = 0;
+      let rainbowHeight = 0;
+      let rainbowDpr = 1;
+      function resizeRainbow() {
+        const box = rainbowCanvas.getBoundingClientRect();
+        rainbowDpr = Math.min(window.devicePixelRatio || 1, 2);
+        rainbowWidth = box.width;
+        rainbowHeight = box.height;
+        rainbowCanvas.width = rainbowWidth * rainbowDpr;
+        rainbowCanvas.height = rainbowHeight * rainbowDpr;
+        rainbowContext.setTransform(rainbowDpr, 0, 0, rainbowDpr, 0, 0);
+      }
+      function drawRainbow(time) {
+        const seconds = time * .001;
+        rainbowContext.clearRect(0, 0, rainbowWidth, rainbowHeight);
+        rainbowContext.fillStyle = '#050509';
+        rainbowContext.fillRect(0, 0, rainbowWidth, rainbowHeight);
+        rainbowColors.forEach((color, index) => {
+          for (let beam = 0; beam < 4; beam += 1) {
+            const phase = index * .14 + beam * .035;
+            const origin = rainbowWidth * (.2 + index * .1) + Math.sin(seconds * .45 + phase) * 32;
+            const sway = Math.sin(seconds * .55 + phase) * 95;
+            const gradient = rainbowContext.createLinearGradient(origin, rainbowHeight, origin + sway, 0);
+            gradient.addColorStop(0, `${color}00`);
+            gradient.addColorStop(.25, `${color}38`);
+            gradient.addColorStop(.72, `${color}18`);
+            gradient.addColorStop(1, `${color}00`);
+            rainbowContext.strokeStyle = gradient;
+            rainbowContext.lineWidth = 1.4 + beam * .55;
+            rainbowContext.beginPath();
+            rainbowContext.moveTo(origin, rainbowHeight + 35);
+            rainbowContext.bezierCurveTo(origin - 65, rainbowHeight * .68, origin + sway + 75, rainbowHeight * .29, origin + sway, -35);
+            rainbowContext.stroke();
+          }
+        });
+        requestAnimationFrame(drawRainbow);
+      }
+      window.addEventListener('resize', resizeRainbow);
+      resizeRainbow();
+      requestAnimationFrame(drawRainbow);
+      const translations = {
+        zh: {
+          brand: 'BETTER 创意事务所', menu: '菜单', kicker: '创意方向 / 2026', heroLine1: '构建你的下一个项目', heroLine2: '几分钟，而不是几小时。',
+          captionLead: '让日常的改变<br>更有方向。', captionCopy: '以鲜明的观点，建立更值得被记住的品牌、数字空间与体验。', scroll: '向下探索',
+          practice: 'BETTER 的实践', practiceTitle: '不必更响亮。<br>只需更<span style="color:var(--accent)">有意义。</span>', practiceCopy: '将策略、品牌识别与体验，汇聚为一条清晰的方向。',
+          worksLabel: '精选项目 / 2026', worksTitle: '制作实绩', projects: '06 个项目',
+          category1: '品牌 / 空间', category2: '识别 / 零售', category3: '数字 / 文化', category4: '产品 / 服务', category5: '企划 / 城市', category6: '影像 / 创意指导'
+        },
+        en: {
+          brand: 'BETTER OFFICE', menu: 'MENU', kicker: 'CREATIVE DIRECTION / 2026', heroLine1: 'Build your next project', heroLine2: 'in minutes, not hours.',
+          captionLead: 'MAKE THE EVERYDAY<br>MOVE WITH PURPOSE.', captionCopy: 'We build identities and digital places with a clear point of view, for a more memorable tomorrow.', scroll: 'SCROLL TO EXPLORE',
+          practice: 'BETTER, IN PRACTICE', practiceTitle: 'Not louder.<br>More <span style="color:var(--accent)">meaningful.</span>', practiceCopy: 'Strategy, identity and experiences shaped into one clear direction.',
+          worksLabel: 'SELECTED WORKS / 2026', worksTitle: 'SELECTED WORKS', projects: '06 PROJECTS',
+          category1: 'BRAND / SPACE', category2: 'IDENTITY / RETAIL', category3: 'DIGITAL / CULTURE', category4: 'PRODUCT / SERVICE', category5: 'CAMPAIGN / CITY', category6: 'FILM / DIRECTION'
+        },
+        ja: {
+          brand: 'BETTER クリエイティブオフィス', menu: 'メニュー', kicker: 'クリエイティブディレクション / 2026', heroLine1: '次のプロジェクトを', heroLine2: '数分で、数時間ではなく。',
+          captionLead: '日常の変化を<br>もっと意義あるものに。', captionCopy: '明確な視点から、記憶に残るブランド、デジタル空間、体験をつくります。', scroll: 'スクロールして見る',
+          practice: 'BETTER の実践', practiceTitle: '大きな声より。<br>もっと<span style="color:var(--accent)">意味のあるものを。</span>', practiceCopy: '戦略、アイデンティティ、体験を、一つの明確な方向へ。',
+          worksLabel: 'SELECTED WORKS / 2026', worksTitle: '制作実績', projects: '06 PROJECTS',
+          category1: 'ブランド / 空間', category2: 'アイデンティティ / リテール', category3: 'デジタル / カルチャー', category4: 'プロダクト / サービス', category5: 'キャンペーン / 都市', category6: '映像 / クリエイティブディレクション'
+        }
+      };
+      function setLanguage(language) {
+        document.documentElement.lang = language === 'zh' ? 'zh-CN' : language;
+        document.querySelectorAll('[data-i18n]').forEach((element) => {
+          const value = translations[language][element.dataset.i18n];
+          if (element.dataset.i18n === 'captionLead') element.innerHTML = value;
+          else element.textContent = value;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach((element) => { element.innerHTML = translations[language][element.dataset.i18nHtml]; });
+        document.querySelectorAll('.language').forEach((button) => button.classList.toggle('active', button.dataset.language === language));
+      }
+      document.querySelectorAll('.language').forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.language)));
+      headline.addEventListener('pointerenter', () => hero.classList.add('title-hover'));
+      headline.addEventListener('pointerleave', () => hero.classList.remove('title-hover'));
+      const workObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); workObserver.unobserve(entry.target); }
+      }), { threshold: .14 });
+      document.querySelectorAll('.work-card').forEach((card) => workObserver.observe(card));
+    </script>
+  </body>
+</html>
