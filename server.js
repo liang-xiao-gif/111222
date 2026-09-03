@@ -8,6 +8,62 @@ const { spawn } = require('node:child_process');
 
 const root = __dirname;
 const port = Number(process.env.PORT || 3000);
+const employeeSkillsFile = path.join(root, 'data', 'employee-skills.json');
+
+async function readEmployeeSkills() {
+  try {
+    const content = await fs.readFile(employeeSkillsFile, 'utf8');
+    const records = JSON.parse(content);
+    return records && typeof records === 'object' && !Array.isArray(records) ? records : {};
+  } catch (error) {
+    if (error.code === 'ENOENT') return {};
+    throw error;
+  }
+}
+
+async function writeEmployeeSkills(records) {
+  await fs.mkdir(path.dirname(employeeSkillsFile), { recursive: true });
+  const temporaryFile = employeeSkillsFile + '.tmp';
+  await fs.writeFile(temporaryFile, JSON.stringify(records, null, 2) + '\n', 'utf8');
+  await fs.rename(temporaryFile, employeeSkillsFile);
+}
+
+function employeeIdFromUrl(url) {
+  const pathname = new URL(url, 'http://localhost').pathname;
+  const match = pathname.match(/^\/api\/v1\/employees\/(EMP\d+)\/skills$/i);
+  return match ? match[1].toUpperCase() : null;
+}
+
+async function handleEmployeeSkills(request, response, employeeId) {
+  try {
+    const records = await readEmployeeSkills();
+    if (request.method === 'GET') {
+      sendJson(response, 200, { employeeId, skills: records[employeeId] || [] });
+      return;
+    }
+    if (!['POST', 'PUT'].includes(request.method)) {
+      response.writeHead(405, { Allow: 'GET, POST, PUT' });
+      response.end('Method not allowed');
+      return;
+    }
+    const payload = JSON.parse(await getRequestBody(request) || '{}');
+    if (!Array.isArray(payload.skills) || payload.skills.some((skill) => typeof skill !== 'string')) {
+      sendJson(response, 400, { error: 'skills 必须是字符串数组。' });
+      return;
+    }
+    const skills = [...new Set(payload.skills.map((skill) => skill.trim()).filter(Boolean))];
+    if (skills.length > 100 || skills.some((skill) => skill.length > 30)) {
+      sendJson(response, 400, { error: '最多保存 100 项技术，每项最多 30 个字符。' });
+      return;
+    }
+    records[employeeId] = skills;
+    await writeEmployeeSkills(records);
+    sendJson(response, 200, { employeeId, skills });
+  } catch (error) {
+    const status = error instanceof SyntaxError ? 400 : 500;
+    sendJson(response, status, { error: status === 400 ? '请求 JSON 格式无效。' : '技术专长保存失败。' });
+  }
+}
 
 async function loadEnvFile() {
   try {
@@ -235,7 +291,10 @@ async function serveStatic(request, response) {
 
 loadEnvFile().then(() => {
   const server = http.createServer((request, response) => {
-    if (request.method === 'POST' && request.url === '/api/chat') {
+    const employeeId = employeeIdFromUrl(request.url);
+    if (employeeId) {
+      handleEmployeeSkills(request, response, employeeId);
+    } else if (request.method === 'POST' && request.url === '/api/chat') {
       handleChat(request, response);
     } else if (request.method === 'POST' && request.url === '/api/convert') {
       handleConvert(request, response);

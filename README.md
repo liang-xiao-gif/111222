@@ -1,5 +1,12 @@
 # CodeGuard AI
 
+## 员工技术专长 API
+
+运行 `npm start` 后，专长数据会持久化到 `data/employee-skills.json`。
+
+- `GET /api/v1/employees/EMP001/skills`：读取技术专长
+- `POST /api/v1/employees/EMP001/skills`：保存技术专长，请求体格式为 `{ "skills": ["Java", "Docker"] }`
+
 ## 启动 Gemini 对话
 
 1. 从 .env.example 复制一份为 .env。
